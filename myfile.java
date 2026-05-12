@@ -1,6 +1,25 @@
+pipeline {
+    agent any
 
-public class myfile {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
+    environment {
+        registry = 'majenayu/test_3'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Majenayu/dock.git'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                script {
+                    docker.build("${registry}")
+                }
+            }
+        }
     }
 }
